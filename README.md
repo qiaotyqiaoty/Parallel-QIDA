@@ -70,6 +70,7 @@ The **unique string** is set as 'RSN'. The program will take RSN101, RSN243, RSN
      - The `IDA_AMPLITUDES` should be a vector or a number
      - If `IDA_AMPLITUDES = 0.1:0.1:2`, the ground motions will be scaled 0.1x, 0.2x, 0.3x, ..., 2.0x for IDA analysis
      - If `IDA_AMPLITUDES = 1`, IDA mode is disabled, each ground motion will only run once.
+     Example:
 
    ```matlab
    %% Define session and constants
