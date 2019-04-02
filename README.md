@@ -112,30 +112,30 @@ The **unique string** is set as 'RSN'. The program will take RSN101, RSN243, RSN
 
 ## Properties
 
-- dirModel
-- modelName
-- ampsIDA
-- runOptions
-  - parallelOptions
-  - IDAOptions
+- dirModel:  directory of the OSN model .MAT file
+- modelName:  name of the OSN model .MAT file
+- ampsIDA: scaling amplitude vector for IDA analysis
+- runOptions:  stores user defined options for IDA options and input infomation
+  - parallelOptions: 
+  - **IDAOptions**:  Stores detected AnalysisCase, TimeSeries and LoadPattern, with mappings
   - IDAon
   - activeGMs
   - activeAmps
   - nAmp
   - nGM
-  - uniqueStr
+  - uniqueStr:   Unique string to detect IDA analysis cases
 - paths
   - idaPath
   - tclPath
   - osPath
-- inpModel
+- inpModel:   the loaded OSN model file
   - Model
     - ...
   - Library
     - ...
   - UserDef
     - ...
-- jobs
+- jobs:   worklist for IDA parallel computing
   - paths
   - pathNames
 
@@ -143,7 +143,7 @@ The **unique string** is set as 'RSN'. The program will take RSN101, RSN243, RSN
 
 ## Methods
 
-- IDASession (initialize)
+- IDASession (initialization)
 - load
 - readAnalysisCase
 - createDirs
