@@ -110,5 +110,45 @@ The **unique string** is set as 'RSN'. The program will take RSN101, RSN243, RSN
 
    
 
+## Properties
+
+- dirModel
+- modelName
+- ampsIDA
+- runOptions
+  - parallelOptions
+  - IDAOptions
+  - IDAon
+  - activeGMs
+  - activeAmps
+  - nAmp
+  - nGM
+  - uniqueStr
+- paths
+  - idaPath
+  - tclPath
+  - osPath
+- inpModel
+  - Model
+    - ...
+  - Library
+    - ...
+  - UserDef
+    - ...
+- jobs
+  - paths
+  - pathNames
 
 
+
+## Methods
+
+- IDASession (initialize)
+- load
+- readAnalysisCase
+- createDirs
+- setOpenSeesPath
+- writeTclFiles
+- jobMat
+- runIDA
+- readOutput
