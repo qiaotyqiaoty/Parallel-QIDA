@@ -32,7 +32,7 @@ DIR_MODEL = HOME_PATH;
 
 % Set ground motion path
 % Please use '\'
-DIR_GM = HOME_PATH;
+DIR_GM = [HOME_PATH, '\GM'];
 
 % Set Opensees.exe folder path
 NAME_MODEL = 'ORRRBH_190129.mat';

@@ -27,15 +27,29 @@ clear myIDASession;
 load([idapath,'\myIDASession.mat']);
 
 %% Output data
+% Plot roof disp.
 IDAoutput = myIDASession.readOutput('RSN*RoofDrift*Dsp.out', 1, [1 2], {'time','drift'}, '');
 figure; hold on;
-
-% Plot roof-drift
-nGM = size(IDAoutput, 1);
-legendStr = cell(nGM,1);
-for i = 1:nGM
+n = size(IDAoutput, 1);
+k = 1;
+for i = 3:3
     plot(IDAoutput{i,3}, IDAoutput{i,4});
-    legendStr{i,1} = IDAoutput{i,2};
+    legendStr{k,1} = IDAoutput{i,2};
+    k = k+1;
 end
 legend(legendStr);
 hold off;
+
+% Plot uplift
+IDAoutput = myIDASession.readOutput('RSN*LED_BasDefo.out', 1, [1 2 3], {'time','LED1','LED2'}, '');
+figure; hold on;
+n = size(IDAoutput, 1);
+k = 1;
+for i = 3:3
+    plot(IDAoutput{i,3}, IDAoutput{i,4});
+    legendStr{k,1} = IDAoutput{i,2};
+    k = k+1;
+end
+legend(legendStr);
+hold off;
+

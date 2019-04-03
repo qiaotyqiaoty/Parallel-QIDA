@@ -93,6 +93,9 @@ classdef IDASession
         function obj = load(obj)
             try
                 obj.inpModel = load([obj.dirModel,'\',obj.modelName]);
+                obj.inpModel.Model.pathname = obj.dirModel;
+                obj.inpModel.Model.filename = obj.modelName;
+                obj.inpModel.Model.name = obj.modelName;
             catch exception
                 fprintf('%s',exception.message);
                 fprintf('Unable to read or find the MAT file.\n');
