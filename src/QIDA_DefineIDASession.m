@@ -19,18 +19,20 @@ clear; clc; close all;
 %% Define session and constants
 % ================================================================
 % ================================================================
+HOME_PATH = pwd;
+
 % Set Opensees.exe folder path
 % Don't include 'opensees.exe'!
 % Please use '\'
-DIR_OPENSEES = 'C:\Program Files\OpenSees_x64';
+DIR_OPENSEES = HOME_PATH;
 
 % Set Opensees.exe folder path
 % Please use '\'
-DIR_MODEL = 'D:\Research\UBC MASc\Hybrid Simulation\OpenSees Model 190129';
+DIR_MODEL = HOME_PATH;
 
 % Set ground motion path
 % Please use '\'
-DIR_GM = 'D:\Research\UBC MASc\Hybrid Simulation\OpenSees Model 190129\GM';
+DIR_GM = [HOME_PATH, '\GM'];
 
 % Set Opensees.exe folder path
 NAME_MODEL = 'ORRRBH_190129.mat';
