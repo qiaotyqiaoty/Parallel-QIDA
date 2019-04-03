@@ -14,7 +14,7 @@ classdef IDASession
     
     methods
         %% Initialization
-        function obj = IDASession(dirModel, modelName, parallelEnabled, varargin)
+        function obj = IDASession(dirModel, dirGM, modelName, parallelEnabled, varargin)
             
             % Model directory
             obj.dirModel = strip(dirModel,'right','\');
@@ -83,7 +83,8 @@ classdef IDASession
             obj.paths = struct( ...
                 'tclPath',[obj.dirModel, '\TCLFiles'], ...
                 'idaPath',[obj.dirModel, '\IDAFiles'], ...
-                'osPath', '');
+                'osPath', '', ...
+                'gmPath', dirGM);
             status = mkdir(obj.paths.idaPath);
             
         end
@@ -134,7 +135,6 @@ classdef IDASession
             end
             
             % Read Time Series
-            j = 1;
             tsTemp = {obj.inpModel.Library.TimeSeries(:).Name};
             for i = 1:size(obj.runOptions.IDAOptions, 2)
                 j = find(strcmp(tsTemp, ...
@@ -224,7 +224,7 @@ classdef IDASession
                         obj.runOptions.IDAOptions(i).AnalysisCasesNum);
                     dstPath = obj.runOptions.IDAOptions(i).outputPath{j,1};
                     movefile([obj.paths.tclPath,'\*.tcl'],dstPath);
-                    copyfile([obj.paths.tclPath,'\*.thf'],dstPath);
+                    copyfile([obj.paths.gmPath,'\*.thf'],dstPath);
                 end
             end
         end
@@ -252,6 +252,7 @@ classdef IDASession
             parjobPaths = obj.jobs.paths;
             parjobNames = obj.jobs.pathNames;
             dirOpenSees = obj.paths.osPath;
+            obj.inpModel = [];
             % Parallel starts!
             if obj.runOptions.parallelOptions.parallelEnabled
                 parfor i = 1:length(parjobPaths)
@@ -270,11 +271,26 @@ classdef IDASession
             end
         end
         
+        %% Read time data
+        function outData = readTime(obj, fileName)
+            % Loop in active Amps, GMs
+            n = length(obj.runOptions.activeGMs);
+            outData = cell(n,length(indexCols)+2);
+            for ii = 1:n
+                i = obj.runOptions.activeGMs(ii);
+                iPaths = obj.runOptions.IDAOptions(i).outputPath{1};
+                timeFileName = dir([iPaths,'\']);
+                timeName = timeFileName(1).name;
+                outData{i,1} = obj.runOptions.IDAOptions(i).num;
+                outData{i,2} = obj.runOptions.IDAOptions(i).AnalysisCases;
+                outData{i,3} = timeName;
+            end
+        end
         
         %% Read output data
         function outData = readOutput(obj, outFileName, AmpNum, indexCols, fieldNames, flag)
             if length(indexCols) ~= length(fieldNames)
-                ME = MException('Error InconsistentDataType', ...
+                ME = MException('MATLAB:LoadErr', ...
                     'Dimensions of indexCols and fieldNames should match');
                 throw(ME);
             end

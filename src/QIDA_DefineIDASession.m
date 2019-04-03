@@ -28,16 +28,20 @@ DIR_OPENSEES = 'C:\Program Files\OpenSees_x64';
 % Please use '\'
 DIR_MODEL = 'D:\Research\UBC MASc\Hybrid Simulation\OpenSees Model 190129';
 
+% Set ground motion path
+% Please use '\'
+DIR_GM = 'D:\Research\UBC MASc\Hybrid Simulation\OpenSees Model 190129\GM';
+
 % Set Opensees.exe folder path
 NAME_MODEL = 'ORRRBH_190129.mat';
 
 % IDA amplitudes vector
-IDA_AMPLITUDES = 0.1:0.1:2;
+IDA_AMPLITUDES = 1;
 
 % ================================================================
 % ================================================================
 %% Create session
-myIDASession = IDASession(DIR_MODEL, NAME_MODEL, true, IDA_AMPLITUDES);
+myIDASession = IDASession(DIR_MODEL, DIR_GM, NAME_MODEL, true, IDA_AMPLITUDES);
 
 %% Load model
 myIDASession = myIDASession.load;

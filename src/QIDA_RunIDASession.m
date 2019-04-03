@@ -23,7 +23,7 @@ clear; clc; close all;
 %% Load session
 load('myIDASession.mat');
 save([myIDASession.paths.idaPath, '\', 'myIDASession.mat'], 'myIDASession')
-fprintf('IDA session saved to .\IDAFiles... \n');
+fprintf('IDA session saved to \\IDAFiles... \n');
 
 %% Write TCL files into the folder structure
 myIDASession = myIDASession.writeTclFiles;
