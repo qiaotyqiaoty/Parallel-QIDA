@@ -304,9 +304,13 @@ classdef IDASession
                 outData{i,2} = obj.runOptions.IDAOptions(i).AnalysisCases;
                 for j = 1:length(indexCols)
                     outFile = dir([iPaths{AmpNum,1}, '\', outFileName]);
-                    if size(outFile, 1) ~= 1
-                        ME = MException('Error FileNameAmbiguous', ...
-                            'Ambiguous file name, check the expression for outFileName');
+                    if size(outFile, 1) > 1
+                        ME = MException('MATLAB:LoadErr', ...
+                            'Ambiguous .out file name, check the expression for outFileName');
+                        throw(ME);
+                    elseif size(outFile, 1) == 0
+                        ME = MException('MATLAB:LoadErr', ...
+                            '.out file does not exist, check out files');
                         throw(ME);
                     end
                     tempData = load([iPaths{AmpNum,1}, '\', outFile.name]);

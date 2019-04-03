@@ -54,7 +54,7 @@ myIDASession = myIDASession.setOpenSeesPath(DIR_OPENSEES);
 myIDASession = myIDASession.readAnalysisCases('RSN');  % The unique string to identify analysis cases
 
 % Create folder structures
-myIDASession = myIDASession.createDirs(true);
+myIDASession = myIDASession.createDirs(false);
 
 % Set active range of GMs and Amps
 GMMin = 1;

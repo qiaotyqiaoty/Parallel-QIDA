@@ -22,6 +22,9 @@ clear; clc; close all;
 
 %% Load session
 load('myIDASession.mat');
+idapath = myIDASession.paths.idaPath;
+clear myIDASession;
+load([idapath,'\myIDASession.mat']);
 
 %% Output data
 IDAoutput = myIDASession.readOutput('RSN*RoofDrift*Dsp.out', 1, [1 2], {'time','drift'}, '');
