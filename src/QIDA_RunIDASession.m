@@ -20,6 +20,10 @@
 clear; clc; close all;
 
 % ================================================================
+% Parallel computing settings
+NUM_WORKERS = 6;
+CLUSTER_NAME = 'local';
+% ================================================================
 %% Load session
 load('myIDASession.mat');
 save([myIDASession.paths.idaPath, '\', 'myIDASession.mat'], 'myIDASession')
@@ -29,7 +33,7 @@ fprintf('IDA session saved to \\IDAFiles... \n');
 myIDASession = myIDASession.writeTclFiles;
 
 %% Set up job matrix
-myIDASession = myIDASession.jobMat;
+myIDASession = myIDASession.jobMat(NUM_WORKERS,CLUSTER_NAME);
 
 %% Print job info
 nActiveAmps = length(myIDASession.runOptions.activeAmps);
@@ -38,6 +42,8 @@ fprintf('Number of active ground motions: %d \n', nActiveGMs);
 fprintf('Number of active IDA amplitudes: %d \n', nActiveAmps);
 fprintf('Total number of jobs: %d \n', nActiveAmps * nActiveGMs);
 fprintf('Successfully loaded the session! \n\n');
+fprintf('Parallel workers: %d \n', NUM_WORKERS);
+fprintf('Parallel cluster: %s \n', CLUSTER_NAME);
 
 %% Run IDA jobs
 fprintf('IDA starts ... \n');

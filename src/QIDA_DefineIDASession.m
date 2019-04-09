@@ -19,6 +19,7 @@ clear; clc; close all;
 %% Define session and constants
 % ================================================================
 % ================================================================
+% Set home path
 HOME_PATH = pwd;
 
 % Set Opensees.exe folder path
@@ -59,8 +60,8 @@ myIDASession = myIDASession.readAnalysisCases('RSN');  % The unique string to id
 myIDASession = myIDASession.createDirs(false);
 
 % Set active range of GMs and Amps
-GMMin = 1;
-GMMax = 99;
+GMMin = 2;
+GMMax = 2;
 AmpMin = 1;
 AmpMax = 99;
 myIDASession = myIDASession.setActiveJobs(GMMin, GMMax, AmpMin, AmpMax);

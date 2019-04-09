@@ -2,7 +2,7 @@
 classdef IDASession
     
     properties
-        dirModel            % directory of the model MAT file
+        dirModel            % directory of model MAT file
         modelName           % name of the model MAT file
         ampsIDA             % a vector indicating the amplitudes for GM scaling
         runOptions          % info struct for analysis cases and options
@@ -14,14 +14,13 @@ classdef IDASession
     
     methods
         %% Initialization
-        function obj = IDASession(dirModel, dirGM, modelName, parallelEnabled, varargin)
+        function obj = IDASession(dirModel, dirGM, modelName, varargin)
             
             % Model directory
             obj.dirModel = strip(dirModel,'right','\');
             
             % Run options
             obj.runOptions = struct( ...
-                'parallelOptions',[], ...
                 'IDAOptions', [], ...
                 'IDAon', true, ...
                 'activeGMs', [], ...
@@ -29,12 +28,7 @@ classdef IDASession
                 'nAmp', 1, ...
                 'nGM', 1, ...
                 'uniqueStr', '');
-            
-            % Parallel options
-            obj.runOptions.parallelOptions = struct( ...
-                'parallelEnabled', parallelEnabled, ...
-                'parPool', []);
-            
+
             % OSN model name with mat
             if endsWith(modelName,'.mat')
                 obj.modelName = modelName;
@@ -93,6 +87,7 @@ classdef IDASession
         function obj = load(obj)
             try
                 obj.inpModel = load([obj.dirModel,'\',obj.modelName]);
+                % Update model info
                 obj.inpModel.Model.pathname = obj.dirModel;
                 obj.inpModel.Model.filename = obj.modelName;
                 obj.inpModel.Model.name = obj.modelName;
@@ -234,7 +229,17 @@ classdef IDASession
         
         
         %% Set up job matrix
-        function obj = jobMat(obj)
+        function obj = jobMat(obj,parWorkers,clusterName)
+            % Write parallel settings
+            if parWorkers > 1
+                obj.jobs.parOptions = struct( ...
+                    'parallel',true, ...
+                    'parWorkers',parWorkers, ...
+                    'clusterName',clusterName);
+            else
+                obj.jobs.parOptions = struct( ...
+                    'parallel',false);
+            end
             % Reshape (stretch) job matrix to a vector
             m = length(obj.runOptions.activeAmps);
             n = length(obj.runOptions.activeGMs);
@@ -257,7 +262,7 @@ classdef IDASession
             dirOpenSees = obj.paths.osPath;
             obj.inpModel = [];
             % Parallel starts!
-            if obj.runOptions.parallelOptions.parallelEnabled
+            if obj.jobs.parOptions.parallel
                 parfor i = 1:length(parjobPaths)
                     tic
                     Command = strrep(['cd ', parjobPaths{i,1}, ' & @ "', dirOpenSees,'\OpenSees.exe" "', parjobNames{i,1},'"'],'\','/');
@@ -273,6 +278,8 @@ classdef IDASession
                 end
             end
         end
+       
+        
         
         %% Read time data
         function outData = readTime(obj, fileName)
@@ -313,7 +320,7 @@ classdef IDASession
                         throw(ME);
                     elseif size(outFile, 1) == 0
                         ME = MException('MATLAB:LoadErr', ...
-                            '.out file does not exist, check out files');
+                            'The specified .out file does not exist, check out files');
                         throw(ME);
                     end
                     tempData = load([iPaths{AmpNum,1}, '\', outFile.name]);

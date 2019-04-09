@@ -18,13 +18,19 @@
 % Output:
 % Will create a subfolder '\IDAFiles', find .out files there
 
-clear; clc; close all;
 
 %% Load session
 load('myIDASession.mat');
 idapath = myIDASession.paths.idaPath;
 clear myIDASession;
 load([idapath,'\myIDASession.mat']);
+
+% Set active range of GMs and Amps
+GMMin = 3;
+GMMax = 3;
+AmpMin = 1;
+AmpMax = 99;
+myIDASession = myIDASession.setActiveJobs(GMMin, GMMax, AmpMin, AmpMax);
 
 %% Output data
 % Plot roof disp.
@@ -38,9 +44,8 @@ for i = 3:3
     k = k+1;
 end
 legend(legendStr);
-hold off;
 
-% Plot uplift
+% Plot LED defo
 IDAoutput = myIDASession.readOutput('RSN*LED_BasDefo.out', 1, [1 2 3], {'time','LED1','LED2'}, '');
 figure; hold on;
 n = size(IDAoutput, 1);
@@ -51,5 +56,4 @@ for i = 3:3
     k = k+1;
 end
 legend(legendStr);
-hold off;
 
