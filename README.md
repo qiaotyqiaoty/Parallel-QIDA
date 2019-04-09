@@ -13,8 +13,7 @@ The program includes the following M files:
 - IDASession.m
 - QIDA_DefineIDASession.m
 - QIDA_RunIDASession.m
-- QIDA_OutputNLTHA.m
-- QIDA_OutputIDA.m
+
 
 Please put the above files in your model directory and add the directory to MATLAB path.
 
