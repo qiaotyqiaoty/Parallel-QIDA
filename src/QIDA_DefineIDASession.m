@@ -33,10 +33,10 @@ DIR_MODEL = HOME_PATH;
 
 % Set ground motion path
 % Please use '\'
-DIR_GM = [HOME_PATH, '\GM'];
+DIR_GM = [HOME_PATH, '\GroundMotions'];
 
 % Set Opensees.exe folder path
-NAME_MODEL = 'ORRRBH_190129.mat';
+NAME_MODEL = 'RCW_190408_3.mat';
 
 % IDA amplitudes vector
 IDA_AMPLITUDES = 1;
@@ -60,14 +60,14 @@ myIDASession = myIDASession.readAnalysisCases('RSN');  % The unique string to id
 myIDASession = myIDASession.createDirs(false);
 
 % Set active range of GMs and Amps
-GMMin = 2;
-GMMax = 2;
+GMMin = 1;
+GMMax = 1;
 AmpMin = 1;
 AmpMax = 99;
 myIDASession = myIDASession.setActiveJobs(GMMin, GMMax, AmpMin, AmpMax);
 
 % Set job matrix
-myIDASession = myIDASession.jobMat;
+myIDASession = myIDASession.jobMat(6,'local');
 
 % Print job info
 nActiveAmps = length(myIDASession.runOptions.activeAmps);

@@ -21,7 +21,7 @@ clear; clc; close all;
 
 % ================================================================
 % Parallel computing settings
-NUM_WORKERS = 6;
+NUM_WORKERS = 1;
 CLUSTER_NAME = 'local';
 % ================================================================
 %% Load session
@@ -47,9 +47,6 @@ fprintf('Parallel cluster: %s \n', CLUSTER_NAME);
 
 %% Run IDA jobs
 fprintf('IDA starts ... \n');
-if myIDASession.runOptions.parallelOptions.parallelEnabled
     fprintf('Mode: Parallel \n');
-else
-    fprintf('Mode: Interactive \n');
-end
+
 myIDASession = myIDASession.runIDA;
