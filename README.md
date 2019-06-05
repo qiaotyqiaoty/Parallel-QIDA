@@ -12,6 +12,8 @@ The program includes the following M files:
 - IDASession.m
 - QIDA_DefineIDASession.m
 - QIDA_RunIDASession.m
+- WriteTclFiles.p   (from OpenSees Navigator P-Code 2.5.8 Version)
+- OpenSees.exe      (from OpenSees)
 
 
 Please put the above files in your model directory and add the directory to MATLAB path.
@@ -20,7 +22,7 @@ Please put the above files in your model directory and add the directory to MATL
 
 ## Quick Run
 
-For a quick run, just put all the files in your model directory (together with your .mat file and your 'Groundmotions' folder), and run 'DefineIDASession.m', and then run 'RunIDASession.m'.
+For a quick run, just put all the files in your model directory (together with your .mat file and your 'Groundmotions' folder), and run 'QIDA_DefineIDASession.m', and then run 'QIDA_RunIDASession.m'.
 
 
 
