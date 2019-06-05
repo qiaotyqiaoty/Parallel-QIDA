@@ -22,7 +22,7 @@ Please put the above files in your model directory and add the directory to MATL
 
 ## Quick Run
 
-For a quick run, just put all the files in your model directory (together with your .mat file and your 'Groundmotions' folder), and run 'QIDA_DefineIDASession.m', and then run 'QIDA_RunIDASession.m'.
+For a quick run, just put all the files under 'src' folder directly in your model directory (together with your .mat OSN model file and your 'Groundmotions' folder), and run 'QIDA_DefineIDASession.m', and then run 'QIDA_RunIDASession.m'.
 
 
 
