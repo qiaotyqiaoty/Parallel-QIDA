@@ -4,7 +4,6 @@ By: Tianyang Joe Qiao
 
 作者：乔天扬
 
-[TOC]
 
 ## Files
 
@@ -16,6 +15,12 @@ The program includes the following M files:
 
 
 Please put the above files in your model directory and add the directory to MATLAB path.
+
+
+
+## Quick Run
+
+For a quick run, just put all the files in your model directory (together with your .mat file and your 'Groundmotions' folder), and run 'DefineIDASession.m', and then run 'RunIDASession.m'.
 
 
 
