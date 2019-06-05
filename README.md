@@ -7,7 +7,7 @@ By: Tianyang Joe Qiao
 
 ## Files
 
-The program includes the following M files:
+The program includes the following required files:
 
 - IDASession.m
 - QIDA_DefineIDASession.m
