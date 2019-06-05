@@ -44,7 +44,7 @@ IDA_AMPLITUDES = 1;
 % ================================================================
 % ================================================================
 %% Create session
-myIDASession = IDASession(DIR_MODEL, DIR_GM, NAME_MODEL, true, IDA_AMPLITUDES);
+myIDASession = IDASession(DIR_MODEL, DIR_GM, NAME_MODEL, IDA_AMPLITUDES);
 
 %% Load model
 myIDASession = myIDASession.load;
