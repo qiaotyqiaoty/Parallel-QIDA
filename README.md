@@ -28,11 +28,11 @@ For a quick run, just put all the files in your model directory (together with y
 
 ## Requirements
 
-Please check the following requirements carefully:
+If error occurs, please check the following requirements carefully:
 
 1. MATLAB r2017a or later recommended
 
-   (the code has been tested on MATLAB r2017a, r2019a)
+   (the code has been tested on MATLAB r2017a, r2018a, and r2019a)
 
 2. MATLAB Parallel Computing Toolbox
 
