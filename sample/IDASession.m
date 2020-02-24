@@ -68,20 +68,20 @@ classdef IDASession
                 'Others', {});
             
             % Paths
-            mkdir([obj.dirModel,'\IDAFiles']);
-            mkdir([obj.dirModel,'\IDAFiles\',obj.modelName(1:end-3)]);
+            mkdir(fullfile(obj.dirModel,'IDAFiles'));
+            mkdir(fullfile(obj.dirModel,'IDAFiles',obj.modelName(1:end-3)));
             obj.paths = struct( ...
-                'tclPath',[obj.dirModel,'\TCLFiles'], ...
-                'idaPath',[obj.dirModel,'\IDAFiles\',obj.modelName(1:end-3)], ...
+                'tclPath',fullfile(obj.dirModel,'TCLFiles'), ...
+                'idaPath',fullfile(obj.dirModel,'IDAFiles',obj.modelName(1:end-3)), ...
                 'osPath', '', ...
                 'gmPath', dirGM);
-            status = mkdir(obj.paths.idaPath);
+            mkdir(obj.paths.idaPath);
         end
         
         %% Load model
         function obj = load(obj)
             try
-                obj.inpModel = load([obj.dirModel,'\',obj.modelName]);
+                obj.inpModel = load(fullfile(obj.dirModel,obj.modelName));
                 % Update model info
                 obj.inpModel.Model.pathname = obj.dirModel;
                 obj.inpModel.Model.filename = obj.modelName;
@@ -195,7 +195,7 @@ classdef IDASession
             obj.runOptions.activeAmps = max(1,AmpMin):1:min(AmpMax, obj.runOptions.nAmp);
         end
         
-        %% Write TCL files
+        %% Scale GMs and Write TCL files
         function obj = writeTclFiles(obj)
             % default: all active
             if isempty(obj.runOptions.activeGMs)
@@ -204,6 +204,8 @@ classdef IDASession
             if isempty(obj.runOptions.activeAmps)
                 obj.runOptions.activeAmps = 1:1:obj.runOptions.nAmp;
             end
+            
+            % Scale GMs by applying amplitudes to your LoadPattern
             m = length(obj.runOptions.activeAmps);
             n = length(obj.runOptions.activeGMs);
             for ii = 1:n
@@ -213,12 +215,16 @@ classdef IDASession
                 for jj = 1:m
                     j = obj.runOptions.activeAmps(jj);
                     cd(obj.dirModel);
+                    % scale loadpattern by amplitude
                     obj.inpModel.Library.LoadPattern(lpNum).factor = lpfTemp * obj.ampsIDA(j);
+                    % call WriteTCLfiles.p
+                    
                     WriteTCLfiles( ...
                         obj.inpModel.Model, ...
                         obj.inpModel.Library, ...
                         obj.inpModel.UserDef, ...
                         obj.runOptions.IDAOptions(i).AnalysisCasesNum);
+                    % copy tcl files to IDA path
                     dstPath = obj.runOptions.IDAOptions(i).outputPath{j,1};
                     movefile([obj.paths.tclPath,'\*.tcl'],dstPath);
                     copyfile([obj.paths.gmPath,'\*.thf'],dstPath);
