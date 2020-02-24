@@ -83,18 +83,17 @@ The **unique string** is set as 'RSN'. The program will take RSN101, RSN243, RSN
    % ================================================================
    % ================================================================
    % Set Opensees.exe folder path
-   % Don't include 'opensees.exe'!
    % Please use '\'
    DIR_OPENSEES = 'C:\Program Files\OpenSees_x64';
    
-   % Set Opensees.exe folder path
+   % Set model path:
    % Please use '\'
    DIR_MODEL = 'D:\Research\UBC MASc\Hybrid Simulation\OpenSees Model 190129';
    
-   % Set Opensees.exe folder path
+   % Model name here:
    NAME_MODEL = 'ORRRBH_190129.mat';
    
-   % IDA amplitudes vector
+   % IDA amplitudes vector here:
    IDA_AMPLITUDES = 0.1:0.1:2;
    
    % ================================================================
