@@ -16,31 +16,13 @@ This program includes the following important files:
 
 
 
-## Requirements
-
-This program only works on Windows system.
-
-If error occurs, please check the following step by step:
-
-1. MATLAB version? - MATLAB r2017a or later
-
-2. MATLAB toolbox exist? - Parallel Computing Toolbox
-
-3. OpenSees Navigator model version? - Your OpenSees Navigator model must be created in version 2.5.8
-
-4. OpenSees version? - Your opensees.exe must be version 2.5
-
-5. ActiveTcl version? Ensure that ActiveTcl has been installed and compatible to OpenSees Navigator 2.5.8 (x64 recommended)
-
-6. Check if you put your model file in the right folder and put correct constants in `QIDA_run.m`
-
-
-
 ## Analysis cases
 
-When modeling in OpenSees Navigator, **name of AnalysisCase** for IDA analyses should be named with a certain identifier for the program to find it, i.e., setting up a **IDA_IDENTIFIER** in the names of the analysis cases, load patterns and time series.
+When you create your model in OpenSees Navigator, it is recommended that you name your IDA-related `time series`, `load patterns` and `analysis cases` with a unique string in the beginning, like `RSN111`, `RSN342`, `RSN604`, ..., and other unrelated names as `Gravity`, `Cyclic`, etc.
 
-For easy use, please name your time series, load patterns and analysis cases as follows (for example):
+For example:
+
+If you named your `time series`, `load patterns` and `analysis cases` as follows:
 
 - Gravity    (not related to IDA, may be used as a previous step)
 - Pushover    (not related to IDA)
@@ -51,7 +33,7 @@ For easy use, please name your time series, load patterns and analysis cases as 
 - RSN450       (used in IDA)
 
 
-If you named your times series, load patterns and analysis cases all in the above way, then set **IDA_IDENTIFIER** as 'RSN' in `QIDA_run.m`. The program will automatically find RSN101, RSN243, RSN450, and run IDA analysis.
+Then set `IDA_IDENTIFIER = 'RSN'` in `QIDA_run.m`. The program will automatically find RSN101, RSN243, RSN450, and run IDA analyses.
 
 
 
@@ -113,9 +95,33 @@ If you named your times series, load patterns and analysis cases all in the abov
 
 2. Run `QIDA_Run.m` in MATLAB, and check the printed information
 
-   
 
-## Properties
+
+## Requirements
+
+This program only works on Windows system.
+
+If error occurs, please check the following step by step:
+
+1. MATLAB version? - MATLAB r2017a or later
+
+2. MATLAB toolbox exist? - Parallel Computing Toolbox
+
+3. OpenSees Navigator model version? - Your OpenSees Navigator model must be created in version 2.5.8
+
+4. OpenSees version? - Your opensees.exe must be version 2.5
+
+5. ActiveTcl version? Ensure that ActiveTcl has been installed and compatible to OpenSees Navigator 2.5.8 (x64 recommended)
+
+6. Check if you put your model file in the right folder and put correct constants in `QIDA_run.m`
+
+
+
+## Further information
+
+Here is some further information for the main body of the program `IDASession.m`
+
+### Properties
 
 - dirModel:  directory of the OSN model .MAT file
 - modelName:  name of the OSN model .MAT file
