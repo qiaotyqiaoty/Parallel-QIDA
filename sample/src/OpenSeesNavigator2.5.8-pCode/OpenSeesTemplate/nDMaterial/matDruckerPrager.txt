@@ -1,0 +1,1 @@
+nDmaterial DruckerPrager $matTag $K $G $sigY $rho $rhoBar $Kinf $Ko $delta1 $delta2 $H $theta $dens <$pAtm>

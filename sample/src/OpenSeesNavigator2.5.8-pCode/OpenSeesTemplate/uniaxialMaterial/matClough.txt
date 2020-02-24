@@ -1,0 +1,1 @@
+uniaxialMaterial Clough $matTag $Ke $FyPos $FyNeg $alphaH $R $alphaCap $DispCapPos $DispCapNeg $lambdaS $lambdaK $lambdaA $lambdaD $cS $cK $cA $cD 

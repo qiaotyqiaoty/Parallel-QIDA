@@ -1,0 +1,1 @@
+uniaxialMaterial Hardening $matTag $E $Fy $H_iso $H_kin <$eta>

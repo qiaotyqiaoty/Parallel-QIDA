@@ -1,0 +1,1 @@
+uniaxialMaterial HyperbolicGapMaterial $matTag $E $Eur $Rf $Fu $gap

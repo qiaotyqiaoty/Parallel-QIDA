@@ -1,0 +1,1 @@
+nDmaterial J2Plasticity $matTag $K $G $sig0 $sigInf $delta $H

@@ -6,9 +6,8 @@
 
 % Requirements:
 % 1. MATLAB r2017a+
-% 2. OpenSees Navigator p-code 2.5.8 (added to MATLAB paths)
-% 3. MATLAB Parallel Computing Toolbox
-% 4. OpenSees.exe version 2.5
+% 2. MATLAB Parallel Computing Toolbox
+% 3. OpenSees.exe version 2.5
 
 % IMPORTANT:
 %   Please add OpenSees Navigator P-Code to your MATLAB search path!
@@ -53,7 +52,7 @@ CLUSTER_NAME = 'local';
 % AnalysisCase, LoadPattern, TimeSeries identifier
 %   A unique string to identify your AnalysisCases
 %   Example: 'RSN' if your AnalysisCase names are 'RSN56','RSN106', ...
-GM_IDENTIFIER = 'RSN';
+IDA_IDENTIFIER = 'RSN';
 
 % =========================================================================
 %                        END OF USER DEFINED CONSTANTS
@@ -63,7 +62,7 @@ GM_IDENTIFIER = 'RSN';
 
 %% Create IDA session
 % Add search paths to MATLAB
-addpath(DIR_SRC);
+addpath(genpath(DIR_SRC));
 addpath(DIR_MODEL);
 addpath(DIR_GM);
 
@@ -77,7 +76,7 @@ myIDASession = myIDASession.load;
 myIDASession = myIDASession.setOpenSeesPath(DIR_SRC);
 
 % Read analysis cases in the model, with a unique string in the name
-myIDASession = myIDASession.readAnalysisCases(GM_IDENTIFIER);  % The unique string to identify analysis cases
+myIDASession = myIDASession.readAnalysisCases(IDA_IDENTIFIER);  % The unique string to identify analysis cases
 
 % Create folder structures
 myIDASession = myIDASession.createDirs(false);
@@ -120,7 +119,6 @@ fprintf('Parallel cluster: %s \n', CLUSTER_NAME);
 %% Run IDA jobs
 myIDASession = myIDASession.runIDA;
 
-% Remove the paths from MATLAB
-rmpath(DIR_SRC);
+rmpath(genpath(DIR_SRC));
 rmpath(DIR_MODEL);
 rmpath(DIR_GM);

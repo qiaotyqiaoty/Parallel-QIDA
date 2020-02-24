@@ -1,0 +1,1 @@
+uniaxialMaterial Fatigue $matTag $tag <$Dmax $E0 $m $epsMin $epsMax>

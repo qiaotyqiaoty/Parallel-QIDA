@@ -1,0 +1,1 @@
+nDMaterial FluidSolidPorous $matTag $nd $soilMatTag $Bc

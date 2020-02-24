@@ -1,0 +1,1 @@
+uniaxialMaterial BilinearOilDamper $matTag $K $Cd <$Fr $p> <$LGap> <$NM $RelTol $AbsTol $MaxHalf>

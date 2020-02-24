@@ -1,0 +1,1 @@
+nDmaterial UserDefinedJ2PlasticityExample $matTag $K $G $sig0 $sigInf $delta $H

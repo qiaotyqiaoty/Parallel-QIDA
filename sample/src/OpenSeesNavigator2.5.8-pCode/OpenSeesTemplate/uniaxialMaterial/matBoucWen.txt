@@ -1,0 +1,1 @@
+uniaxialMaterial BoucWen $matTag $alpha $E $n $gamma $beta $A0 $deltaA $deltaNu $deltaEta <$tol $maxIters>

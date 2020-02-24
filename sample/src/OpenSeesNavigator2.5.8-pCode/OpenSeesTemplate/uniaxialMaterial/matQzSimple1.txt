@@ -1,0 +1,1 @@
+uniaxialMaterial QzSimple1 $matTag $qzType $qult $Z50 <$suction $c>

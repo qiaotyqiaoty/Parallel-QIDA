@@ -1,0 +1,195 @@
+Version Information
+===================
+
+Version 2.5.8 (09/10/2017)
+--------------------------
++ Added ConcreteCM and ConcreteD uniaxial materials.
++ Added Steel4, SteelMPF, and CastFuse uniaxial materials.
++ Added BilinearOilDamper uniaxial material.
++ Added SAWS uniaxial material.
++ Fixed a bug in Concrete07 uniaxial material interface.
++ Some other misc bug fixes.
+
+
+Version 2.5.7 (10/10/2016)
+--------------------------
++ Added capability to define how analysis parameters are reset
+  for the next analysis when running a sequence of analyses.
++ Fixed a bug with line, area, and solid element division.
++ Added user-defined response spectrum.
++ Added interface for some new isolator elements.
++ Added optional input arguments for Path time series.
++ Fixed a bug in the display of element loads.
++ Updated optional input parameters for some materials.
++ Added perspective vs. orthographic view option.
+
+
+Version 2.5.6 (02/10/2016)
+--------------------------
++ Improved solid element post-processing capabilities.
++ Added zoom and pan capabilities to post-processing windows.
++ Added self-weight load for solid elements.
++ Added optional factors input parameter to Parallel material.
++ Added OpenFresco experimental recorders.
++ Updated OpenFresco experimental control interfaces.
++ Added preliminary Abaqus import capability.
++ Some other misc bug fixes.
+
+
+Version 2.5.5 (07/14/2015)
+--------------------------
++ Added display coloring option based on element type.
++ Added option to convert a 2D model into a 3D model.
++ Added ElasticOrthotropic nD-material.
++ Added DruckerPrager nD-material.
++ Fixed s2k file import due to problem starting with Matlab R2014b.
++ Fixed bug with Parallel and Series materials.
++ Fixed several bugs related to editing area and solid element meshes.
++ Some other minor bug fixes.
+
+
+Version 2.5.4 (01/31/2015)
+--------------------------
++ Updates for new graphics system in Matlab R2014b.
++ Added option to query design spectra from USGS website.
++ Cleanup of all the response spectrum functions.
++ Some minor bug fixes.
+
+
+Version 2.5.3 (08/31/2014)
+--------------------------
++ Added GreenHeart geometry template.
++ Added newly available elements.
++ Added newly available materials.
++ Added newly available OpenFresco objects.
++ Added new option to run on multiple cores using OpenSeesSP.
++ Added parallel solvers from OpenSeesSP.
++ Minor performance improvements.
++ Many other bug fixes.
+
+
+Version 2.5.2 (08/31/2013)
+--------------------------
++ Improved mixed models (frames + solids) capabilities.
++ Optimized writing of TCL files for speed.
++ Added newly available elements.
++ Added newly available materials.
++ Added newly available OpenFresco objects.
++ Improved eigenvalue analysis capabilities.
++ Improved Rayleigh damping definition.
++ Improved import capability from SAP2000 *.s2k files.
++ Performance improvements.
++ 10-times faster loading of OpenSees results.
++ Many other bug fixes.
+
+
+Version 2.5.1 (08/31/2011)
+--------------------------
++ Added new option to plot time series.
++ Added total reaction force recorders.
++ Added recording time interval and dof options to recorders.
++ Added several new uniaxial material templates.
++ Improved import capability from SAP2000 *.s2k files.
++ Fixed movie generation for 64-bit systems.
++ Several other bug fixes.
+
+
+Version 2.5 (06/16/2010)
+------------------------
++ Added full support for Mac and Unix platforms.
++ Improved the determination of analysis sequences.
++ Added local force recorder for truss element.
++ Added ReinforcingSteel uniaxial material template.
++ Added Concrete04 uniaxial material template.
++ Added HyperbolicGap uniaxial material template.
++ Modified damping definition to be associated with analysis cases.
++ Updated TimeSeries definition to use tags.
++ Added option to specify the material when recording fiber quantities.
++ Several other bug fixes.
+
+
+Version 2.4.2 (12/16/2007)
+--------------------------
++ Added SimDomain and SimFEAdapter experimental control templates.
++ Moved experimental elements from Line Element to Experimental menu.
++ Fixed a bug with the Geometry Templates that crashed Matlab R2007b.
++ Added support for FullGenEigenSolver that returns all eigenvalues.
++ Added batch processing capability from outside OSN.
++ Fixed a bug in the dSpace experimental control.
++ Multiple instances of the PlotResponse window are now allowed.
+
+
+Version 2.4.1 (10/16/2007)
+--------------------------
++ Added Clough uniaxial material template.
++ Added box fiber section for built up sections.
++ Added Joint2d element template.
++ Added mass as an input parameter for generating response spectra.
++ Improved hysteretic material interface.
++ Improved nodal selection interface to accept coordinate ranges.
++ Fixed a bug with the add element interface related to shells.
+
+
+Version 2.4 (07/16/2007)
+------------------------
++ New geometry template for single solid mesh.
++ Added area and solid mesh.
++ Added the following nD-material templates:
+  - ElasticCrossAnisotropic3D
+  - FluidSolidPorous
+  - MultiaxialCyclicPlasticity
+  - NewTemplate3DElastoPlastic
+  - PressureDependMultiYield
+  - PressureDependMultiYield02
+  - PressureDependentElastic3D
+  - PressureIndependMultiYield
+  - Template3DElastoPlastic
+  - user defined material
++ Added the following solid element templates:
+  - Brick8N
+  - Brick8N_u_p_U
+  - StdBrick
+  - user defined element
++ New Animate Response post-processing interface:
+  - change element color depending on their response (disp, vel, accel,
+    stress, strain, pore pressure, etc)
+  - display principal stress and strain
++ Fixed several multiple-support excitation interface bugs.
++ Several other bugs have been extinct.
+
+
+Version 2.3 (01/01/2007)
+------------------------
++ Added display preferences.
++ Added interface to assign element loads.
++ New elastic response spectra and design spectra generation.
++ Added ability to check and update older OSN models to conform with latest release.
++ Several bugs have been extinct.
+
+
+Version 2.2 (11/01/2006)
+------------------------
++ Extended geometry templates for 3D cases.
++ Added multiple-support excitation interface.
++ Updated all the experimental interfaces to conform with OpenFresco version 2.0.
++ Several bugs have been extinct.
+
+
+Version 2.0a (01/26/2006)
+-------------------------
++ Self-executable version for win32 systems available.
++ New user defined OpenSees material templates.
++ Interfaces for new integrators in OpenSees 1.7.
++ Several bugs have been extinct.
+
+
+Version 2.0 (03/16/2005)
+------------------------
++ New graphical user interface (Fonts, Screen sizes……).
++ Ability to load previously defined TCL files (so far Geometry only).
++ New 2D/3D Geometric Templates (CBF,EBF,Shell).
++ New model structure to allow users to add/remove nodes and elements efficiently.
++ More complete OpenSees Material/Section/Element libraries. Including nD-materials, area sections and area elements.
++ Additional functionality to source user defined analysis scripts.
++ Additional post processing functions, such as, user-defined response functions.
++ Additional design toolbox for Performance-Based Earthquake Engineering (PBEE).

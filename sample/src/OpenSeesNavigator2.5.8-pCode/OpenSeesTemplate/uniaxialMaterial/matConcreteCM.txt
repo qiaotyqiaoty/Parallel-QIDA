@@ -1,0 +1,1 @@
+uniaxialMaterial ConcreteCM $matTag $fpcc $epcc $Ec $rc $xcrn $ft $et $rt $xcrp <-GapClose $gap>

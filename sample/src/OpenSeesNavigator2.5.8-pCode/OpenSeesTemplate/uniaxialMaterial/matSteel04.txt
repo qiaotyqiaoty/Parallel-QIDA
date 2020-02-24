@@ -1,0 +1,1 @@
+uniaxialMaterial Steel4 $matTag $f_y $E_0 <-asym> <-kin $b_k $R_0 $r_1 $r_2 <$b_kc $R_0c $r_1c $r_2c>> <-iso $b_i $rho_i $b_l $R_i $l_yp <$b_ic $rho_ic $b_lc $R_ic>> <-ult $f_u $R_u <$f_uc $R_uc>> <-init $sig_init> <-mem $cycNum>

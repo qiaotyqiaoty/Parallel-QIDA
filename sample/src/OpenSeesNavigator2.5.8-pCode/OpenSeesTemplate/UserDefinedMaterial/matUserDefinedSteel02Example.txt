@@ -1,0 +1,1 @@
+uniaxialMaterial UserDefinedSteel02Example $matTag $Fy $E $b $R0 $cR1 $cR2 <$a1 $a2 $a3 $a4>

@@ -1,0 +1,1 @@
+uniaxialMaterial Viscous $matTag $C $alpha

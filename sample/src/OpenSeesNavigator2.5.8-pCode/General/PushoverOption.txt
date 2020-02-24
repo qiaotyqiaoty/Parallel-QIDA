@@ -1,0 +1,83 @@
+# set default parameters
+set controlNode 2;
+set controlDir 1;
+set maxU 15.0;
+
+# set the test parameters
+set testType NormDispIncr
+set testTol 1.0e-8;
+set testIter 25;
+test  $testType $testTol $testIter 
+
+# set the algorithm parameters
+set algoType KrylovNewton
+algorithm  $algoType
+
+set currentDisp [nodeDisp $controlNode $controlDir]
+set ok 0;
+
+while {$ok == 0 && $currentDisp < $maxU} {
+   set ok [analyze 1]
+   if {$ok != 0} {
+      puts " "
+      puts [format "KrylovNewton failed (disp = %1.3e, load = %1.3e), try Newton" $currentDisp [getTime]]
+      algorithm Newton
+      test $testType $testTol $testIter 0
+      set ok [analyze 1]
+      algorithm $algoType
+   }
+   
+   if {$ok != 0} {
+      puts " "
+      puts [format "Newton failed (disp = %1.3e, load = %1.3e), try Newton  w/ iniCurrent" $currentDisp [getTime]]
+      algorithm Newton -initialCurrent
+      test $testType $testTol $testIter 0
+      set ok [analyze 1]
+      algorithm $algoType
+   }
+   
+   if {$ok != 0} {
+      puts " "
+      puts [format "Newton  w/ iniCurrent failed (disp = %1.3e, load = %1.3e), try Newton  w/ ini" $currentDisp [getTime]]
+      algorithm Newton -initial
+      test $testType $testTol [expr 500 * $testIter] 0
+      set ok [analyze 1]
+      algorithm $algoType
+      test $testType $testTol $testIter 0
+   }
+   
+   if {$ok != 0} {
+      puts " "
+      puts [format "Newton  w/ ini failed (disp = %1.3e, load = %1.3e), try Newton w/ EnergyIncr Test" $currentDisp [getTime]]
+      algorithm Newton 
+      test EnergyIncr 1.0e-5 $testIter 0
+      set ok [analyze 1]
+      algorithm $algoType
+      test $testType $testTol $testIter 0
+   }
+   
+   if {$ok != 0} {
+      puts " "
+      puts [format "Newton w/ EnergyIncr Test failed (disp = %1.3e, load = %1.3e), try Newton w/ initial and EnergyIncr Test" $currentDisp [getTime]]
+      algorithm Newton -initial
+      test EnergyIncr 1.0e-5 [expr 500 * $testIter] 0
+      set ok [analyze 1]
+      algorithm $algoType
+      test $testType $testTol $testIter 0
+   }
+   set currentDisp [nodeDisp $controlNode $controlDir]
+}
+
+if {$ok == 0} {
+   puts " "
+   puts "---------------------------------------"
+   puts [format "AnalysisCase(%i) completed successfully" $case]
+   puts "---------------------------------------"
+   puts " "
+} else {
+   puts " "
+   puts "---------------------------------------------------------------------------"
+   puts [format "AnalysisCase(%i) failed (disp = %1.3e, load = %1.3e)" $case $currentDisp [getTime]]
+   puts "---------------------------------------------------------------------------"
+   puts " "
+}

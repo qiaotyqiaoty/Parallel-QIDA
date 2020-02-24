@@ -1,0 +1,1 @@
+uniaxialMaterial Dodd_Restrepo $matTag $Fy $Fsu $epsH $epsU $E $epsHI $FsHI <$omega>

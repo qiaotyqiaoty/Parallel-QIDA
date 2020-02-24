@@ -1,0 +1,7 @@
+nDMaterial NewTemplate3Dep MatTag -MaterialParameter $MPname \
+                                  -ElasticState $ESname \
+                                  -YieldFunction $YFname \
+                                  -PlasticFlow $PFname \
+                                 <-ScalarEvolution $SEname1 <$SEname2 ...> > \
+                                 <-TensorEvolution $TEname1 <$TEname2 ...> > \
+                                 <-Algorithm algTag>

@@ -1,0 +1,1 @@
+nDmaterial MultiaxialCyclicPlasticity $matTag $rho $K $Gmax $Su $Ho $h $m $beta $K0 $eta

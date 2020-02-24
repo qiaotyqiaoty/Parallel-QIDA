@@ -1,0 +1,1 @@
+nDmaterial PressureIndependMultiYield $matTag $nd $rho $Gr $Br $c $gammamax $phi $pr $d $noYS

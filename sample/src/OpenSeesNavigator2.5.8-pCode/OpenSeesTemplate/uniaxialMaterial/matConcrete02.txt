@@ -1,0 +1,1 @@
+uniaxialMaterial Concrete02 $matTag $fpc $epsc0 $fpcu $epscu $lambda $ft $Ets

@@ -1,0 +1,82 @@
+# set the test parameters
+set testType NormDispIncr
+set testTol 1.0e-8;
+set testIter 25;
+test  $testType $testTol $testIter 
+
+# set the algorithm parameters
+set algoType KrylovNewton
+algorithm  $algoType
+
+set ok 0;
+set tFinal [expr $numSteps * $dt]
+set tCurrent [getTime]
+
+while {$ok == 0 && $tCurrent < $tFinal} {
+   puts "$sequ $case $tCurrent"
+   set ok [analyze 1 $dt]
+   
+   if {$ok != 0} {
+      puts " "
+      puts [format "KrylovNewton failed (time = %1.3e), try Newton" $tCurrent]
+      algorithm Newton
+      test $testType $testTol $testIter 0
+      set ok [analyze 1 $dt]
+      algorithm $algoType
+   }
+   
+   if {$ok != 0} {
+      puts " "
+      puts [format "Newton failed (time = %1.3e), try Newton  w/ iniCurrent" $tCurrent]
+      algorithm Newton -initialCurrent
+      test $testType $testTol $testIter 0
+      set ok [analyze 1 $dt]
+      algorithm $algoType
+   }
+   
+   if {$ok != 0} {
+      puts " "
+      puts [format "Newton  w/ iniCurrent failed (time = %1.3e), try Newton  w/ ini" $tCurrent]
+      algorithm Newton -initial
+      test $testType $testTol [expr 500 * $testIter] 0
+      set ok [analyze 1 $dt]
+      algorithm $algoType
+      test $testType $testTol $testIter 0
+   }
+   
+   if {$ok != 0} {
+      puts " "
+      puts [format "Newton  w/ ini failed (time = %1.3e), try Newton w/ EnergyIncr Test" $tCurrent]
+      algorithm Newton 
+      test EnergyIncr 1.0e-5 $testIter 0
+      set ok [analyze 1 $dt]
+      algorithm $algoType
+      test $testType $testTol $testIter 0
+   }
+   
+   if {$ok != 0} {
+      puts " "
+      puts [format "Newton w/ EnergyIncr Test failed (time = %1.3e), try Newton w/ initial and EnergyIncr Test" $tCurrent]
+      algorithm Newton -initial
+      test EnergyIncr 1.0e-5 [expr 500 * $testIter] 0
+      set ok [analyze 1 $dt]
+      algorithm $algoType
+      test $testType $testTol $testIter 0
+   }
+   
+   set tCurrent [getTime]
+}
+
+if {$ok == 0} {
+   puts " "
+   puts "---------------------------------------"
+   puts [format "AnalysisCase(%i) completed successfully" $case]
+   puts "---------------------------------------"
+   puts " "
+} else {
+   puts " "
+   puts "----------------------------------------------------------"
+   puts [format "AnalysisCase(%i) failed (time = %1.3e)" $case $tCurrent]
+   puts "----------------------------------------------------------"
+   puts " "
+}

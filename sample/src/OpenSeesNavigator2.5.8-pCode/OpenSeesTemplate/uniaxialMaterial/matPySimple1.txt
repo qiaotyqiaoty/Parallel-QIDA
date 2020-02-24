@@ -1,0 +1,1 @@
+uniaxialMaterial PySimple1 $matTag $soilType $pult $Y50 $Cd <$c>

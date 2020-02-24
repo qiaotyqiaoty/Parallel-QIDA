@@ -1,0 +1,1 @@
+uniaxialMaterial Bond_SP01 $matTag $Fy $Sy $Fu $Su $b $R

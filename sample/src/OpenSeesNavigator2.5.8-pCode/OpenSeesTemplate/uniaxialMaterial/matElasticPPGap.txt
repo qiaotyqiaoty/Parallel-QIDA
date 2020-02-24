@@ -1,0 +1,1 @@
+uniaxialMaterial ElasticPPGap $matTag $E $Fy $gap <$eta> <$damage>

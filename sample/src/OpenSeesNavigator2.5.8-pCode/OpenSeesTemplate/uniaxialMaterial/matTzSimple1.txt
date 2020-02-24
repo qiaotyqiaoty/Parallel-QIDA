@@ -1,0 +1,1 @@
+uniaxialMaterial TzSimple1 $matTag $tzType $tult $z50 <$c>

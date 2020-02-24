@@ -1,0 +1,1 @@
+uniaxialMaterial SteelMPF $matTag $fyp $fyn $E0 $bp $bn $R0 $cR1 $cR2 <$a1 $a2 $a3 $a4>

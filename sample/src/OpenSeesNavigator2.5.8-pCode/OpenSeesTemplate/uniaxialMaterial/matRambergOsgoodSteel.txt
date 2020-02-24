@@ -1,0 +1,1 @@
+uniaxialMaterial RambergOsgoodSteel $matTag $Fy $E $a $n
