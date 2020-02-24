@@ -7,6 +7,8 @@ By: Tianyang Joe Qiao
 
 ## Important files
 
+See `sample` for all codes.
+
 This program includes the following important files:
 
 - IDASession.m      (for class definition of IDA Session)
