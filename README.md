@@ -4,6 +4,8 @@ By: Tianyang Joe Qiao
 
 作者：乔天扬
 
+For a quick trial, download all and run `QIDA_Run.m` in MATLAB.
+
 
 ## Important files
 
