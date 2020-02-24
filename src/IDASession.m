@@ -9,12 +9,13 @@ classdef IDASession
         paths               % structure for all paths, directories
         inpModel            % the loaded OSN model
         jobs                % IDA jobs requested
+        runlog
     end
     
     
     methods
         %% Initialization
-        function obj = IDASession(dirModel, dirGM, modelName, varargin)
+        function obj = IDASession(dirModel, dirGM, modelName, amps)
             
             % Model directory
             obj.dirModel = strip(dirModel,'right','\');
@@ -37,14 +38,7 @@ classdef IDASession
             end
             
             % read IDA amplitudes
-            varnum = size(varargin,2);
-            if varnum == 1 && isa(varargin{1},'numeric')
-                obj.ampsIDA = reshape(varargin{1},[numel(varargin{1}), 1]);
-            elseif varnum > 1 && isa(varargin{1},'numeric')
-                obj.ampsIDA = reshape(varargin{1},[numel(varargin{1}), 1]);
-            else
-                obj.ampsIDA = 1;
-            end
+            obj.ampsIDA = amps;
             
             % Detect for IDA
             if length(obj.ampsIDA) == 1
@@ -74,13 +68,14 @@ classdef IDASession
                 'Others', {});
             
             % Paths
+            mkdir([obj.dirModel,'\IDAFiles']);
+            mkdir([obj.dirModel,'\IDAFiles\',obj.modelName(1:end-3)]);
             obj.paths = struct( ...
-                'tclPath',[obj.dirModel, '\TCLFiles'], ...
-                'idaPath',[obj.dirModel, '\IDAFiles'], ...
+                'tclPath',[obj.dirModel,'\TCLFiles'], ...
+                'idaPath',[obj.dirModel,'\IDAFiles\',obj.modelName(1:end-3)], ...
                 'osPath', '', ...
                 'gmPath', dirGM);
             status = mkdir(obj.paths.idaPath);
-            
         end
         
         %% Load model
@@ -176,7 +171,7 @@ classdef IDASession
                 mkdir(pathTemp1);
                 pathCell = cell(obj.runOptions.nAmp, 1);
                 for j = 1:obj.runOptions.nAmp
-                    pathTemp2 = [pathTemp1, '\AMP_', num2str(obj.ampsIDA(j,1))];
+                    pathTemp2 = [pathTemp1, '\AMP_', num2str(obj.ampsIDA(j))];
                     mkdir(pathTemp2);
                     pathCell{j,1} = pathTemp2;
                 end
@@ -193,6 +188,10 @@ classdef IDASession
         %% Set active jobs
         function obj = setActiveJobs(obj, GMMin, GMMax, AmpMin, AmpMax)
             obj.runOptions.activeGMs = max(1,GMMin):1:min(GMMax, obj.runOptions.nGM);
+            obj.runOptions.activeGMNames = {};
+            for i=1:length(obj.runOptions.activeGMs)
+                obj.runOptions.activeGMNames{i} = obj.runOptions.IDAOptions(obj.runOptions.activeGMs(i)).AnalysisCases;
+            end
             obj.runOptions.activeAmps = max(1,AmpMin):1:min(AmpMax, obj.runOptions.nAmp);
         end
         
@@ -261,20 +260,28 @@ classdef IDASession
             parjobNames = obj.jobs.pathNames;
             dirOpenSees = obj.paths.osPath;
             obj.inpModel = [];
+            cmdlog = cell(length(parjobPaths),1);
             % Parallel starts!
             if obj.jobs.parOptions.parallel
                 parfor i = 1:length(parjobPaths)
-                    tic
                     Command = strrep(['cd ', parjobPaths{i,1}, ' & @ "', dirOpenSees,'\OpenSees.exe" "', parjobNames{i,1},'"'],'\','/');
-                    system(Command,'-echo');
-                    toc
+                    [~,cmdout] = system(Command,'-echo');
+                    cmdlog{i,1} = cmdout;
                 end
             else
                 for i = 1:length(parjobPaths)
-                    tic
                     Command = strrep(['cd ', parjobPaths{i,1}, ' & @ "', dirOpenSees,'\OpenSees.exe" "', parjobNames{i,1},'"'],'\','/');
-                    system(Command,'-echo');
-                    toc
+                    [~,cmdout] = system(Command,'-echo');
+                    cmdlog{i,1} = cmdout;
+                end
+            end
+            
+            obj.runlog = cmdlog;
+            for i=1:length(obj.runlog)
+                if isempty(strfind(obj.runlog{i,1},'WARNING'))
+                    obj.runlog{i,2} = true;
+                else
+                    obj.runlog{i,2} = false;
                 end
             end
         end
@@ -310,21 +317,78 @@ classdef IDASession
             for ii = 1:n
                 i = obj.runOptions.activeGMs(ii);
                 iPaths = obj.runOptions.IDAOptions(i).outputPath;
-                outData{i,1} = obj.runOptions.IDAOptions(i).num;
-                outData{i,2} = obj.runOptions.IDAOptions(i).AnalysisCases;
+                outData{ii,1} = obj.runOptions.IDAOptions(i).num;
+                outData{ii,2} = obj.runOptions.IDAOptions(i).AnalysisCases;
+                outFile = dir([iPaths{AmpNum,1}, '\', outFileName]);
+                if size(outFile, 1) > 1
+                    ME = MException('MATLAB:LoadErr', ...
+                        'Ambiguous .out file name, check the expression for outFileName');
+                    throw(ME);
+                elseif size(outFile, 1) == 0
+                    ME = MException('MATLAB:LoadErr', ...
+                        'The specified .out file does not exist, check out files');
+                    throw(ME);
+                end
+                tempData = load([iPaths{AmpNum,1}, '\', outFile.name]);
                 for j = 1:length(indexCols)
-                    outFile = dir([iPaths{AmpNum,1}, '\', outFileName]);
-                    if size(outFile, 1) > 1
-                        ME = MException('MATLAB:LoadErr', ...
-                            'Ambiguous .out file name, check the expression for outFileName');
-                        throw(ME);
-                    elseif size(outFile, 1) == 0
-                        ME = MException('MATLAB:LoadErr', ...
-                            'The specified .out file does not exist, check out files');
-                        throw(ME);
-                    end
-                    tempData = load([iPaths{AmpNum,1}, '\', outFile.name]);
-                    outData{i, j+2} = tempData(:,indexCols(j));
+                    outData{ii, j+2} = tempData(:,indexCols(j));
+                end
+            end
+        end
+        
+        
+        %% Read output data - no name
+        function outData = readOutput_nn(obj, outFileName, AmpNum, indexCols)
+
+            % Loop in active Amps, GMs
+            n = length(obj.runOptions.activeGMs);
+            outData = cell(n,length(indexCols)+2);
+            for ii = 1:n
+                i = obj.runOptions.activeGMs(ii);
+                iPaths = obj.runOptions.IDAOptions(i).outputPath;
+                outData{ii,1} = obj.runOptions.IDAOptions(i).num;
+                outData{ii,2} = obj.runOptions.IDAOptions(i).AnalysisCases;
+                outFile = dir([iPaths{AmpNum,1}, '\', outFileName]);
+                if size(outFile, 1) > 1
+                    ME = MException('MATLAB:LoadErr', ...
+                        'Ambiguous .out file name, check the expression for outFileName');
+                    throw(ME);
+                elseif size(outFile, 1) == 0
+                    ME = MException('MATLAB:LoadErr', ...
+                        'The specified .out file does not exist, check out files');
+                    throw(ME);
+                end
+                tempData = load([iPaths{AmpNum,1}, '\', outFile.name]);
+                for j = 1:length(indexCols)
+                    outData{ii, j+2} = tempData(:,indexCols(j));
+                end
+            end
+        end
+        
+        %% Read output data - max abs value of each column
+        function outData = readOutput_maxabs(obj, outFileName, AmpNum, indexCols)
+
+            % Loop in active Amps, GMs
+            n = length(obj.runOptions.activeGMs);
+            outData = cell(n,length(indexCols)+2);
+            for ii = 1:n
+                i = obj.runOptions.activeGMs(ii);
+                iPaths = obj.runOptions.IDAOptions(i).outputPath;
+                outData{ii,1} = obj.runOptions.IDAOptions(i).num;
+                outData{ii,2} = obj.runOptions.IDAOptions(i).AnalysisCases;
+                outFile = dir([iPaths{AmpNum,1}, '\', outFileName]);
+                if size(outFile, 1) > 1
+                    ME = MException('MATLAB:LoadErr', ...
+                        'Ambiguous .out file name, check the expression for outFileName');
+                    throw(ME);
+                elseif size(outFile, 1) == 0
+                    ME = MException('MATLAB:LoadErr', ...
+                        'The specified .out file does not exist, check out files');
+                    throw(ME);
+                end
+                tempData = load([iPaths{AmpNum,1}, '\', outFile.name]);
+                for j = 1:length(indexCols)
+                    outData{ii, j+2} = max(abs(tempData(:,indexCols(j))));
                 end
             end
         end
