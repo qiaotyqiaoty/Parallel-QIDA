@@ -20,11 +20,11 @@ This program includes the following important files:
 
 When you create your model in OpenSees Navigator, it is recommended that you name your IDA-related `time series`, `load patterns` and `analysis cases` with a unique string in the beginning, like `RSN111`, `RSN342`, `RSN604`, ..., and other unrelated names as `Gravity`, `Cyclic`, etc.
 
-![ts](https://github.com/qiaotyqiaoty/Parallel-QIDA/fig/ts-1.png)
+![ts](https://github.com/qiaotyqiaoty/Parallel-QIDA/blob/master/fig/ts-1.png)
 
-![lp](https://github.com/qiaotyqiaoty/Parallel-QIDA/fig/lp-1.png)
+![lp](https://github.com/qiaotyqiaoty/Parallel-QIDA/blob/master/fig/lp-1.png)
 
-![ac](https://github.com/qiaotyqiaoty/Parallel-QIDA/fig/ac-1.png)
+![ac](https://github.com/qiaotyqiaoty/Parallel-QIDA/blob/master/fig/ac-1.png)
 
 
 For example:
