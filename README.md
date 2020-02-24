@@ -48,7 +48,9 @@ Then set `IDA_IDENTIFIER = 'RSN'` in `QIDA_run.m`. The program will automaticall
 
 ## Tutorial
 
-1. Open `QIDA_Run.m` and change the following user defined constants:
+1. Put your model .MAT file into `sample` folder
+
+2. Open `QIDA_Run.m` and change the following user defined constants:
 
    - Set `src` folder path `DIR_SRC`, where `OpenSees.exe` and `OpenSeesNavigator-pcode-2.5.8` are included
    - Set your model directory `DIR_MODEL`
